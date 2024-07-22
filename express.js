@@ -111,5 +111,4 @@ app.get('/error',function(req,res,next){
     let message = req.flash("error")
     res.send(message)
 })
-
 app.listen(3000);
