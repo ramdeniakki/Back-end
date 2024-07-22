@@ -99,3 +99,130 @@ fs.mkdir("FsMod",function(err){
 })
 
 */
+
+
+//    Reading files in the  folder 
+
+
+// fs.readdir("lolo",function(err,files){
+//     if(err) console.log(err)
+//     else console.log(files)
+
+// })
+
+
+// fs.readdir("lolo",{withFileTypes:true},function(err,files){
+//     if(err) console.log(err)
+//     else console.log(files)
+// })
+
+
+// fs.rmdir("lolo",{recursive:true},function(err){
+//     if(err) console.log(err.message)
+//     else console.log("Deleted")
+// })
+
+
+
+
+
+
+
+
+
+
+
+
+/// Http modules; By the help of this we can create the server
+ // Modules -> Node packages
+
+
+
+//  const http = require('http')
+
+//  var server = http.createServer((req,res)=>{
+//       res.end("Hello")
+//  })
+//  server.listen(3000)
+
+
+
+
+// / Routing= url => we can create different url 
+
+
+// const http = require('http');
+
+// const server = http.createServer(function(req,res){
+//     if(req.url === '/'){
+//         res.end("Welcome to the Page")
+//         }
+//         else if(req.url === '/profile'){
+//                 res.end('Profile page')
+//         }else{
+//             res.end("page not found")
+//         }
+// })
+// server.listen(3000)
+
+
+
+
+
+
+// const http = require('http')
+
+// const  server = http.createServer((req,res)=>{
+
+//     if(req.url === '/'){
+//         res.end("Welcome page")
+//     }
+//     else if(req.url === '/contacts'){
+//         res.end('Contact page')
+//     }else{
+//         res.end("Page not found")
+//     }
+//     // z
+// })
+
+//  server.listen(3000);
+
+
+
+// const express = require('express')
+// const app = express();
+
+// app.get("/",function(req,res){
+//     res.send('Home page')
+// })
+
+// app.listen(3000)
+
+
+
+
+const express = require('express')
+const app = express();
+
+const session = require('express-session');
+const flash = require('connect-flash')
+
+app.use(session({
+    resave:false,
+    saveUninitialized: false,
+    secret: "Random Key"
+}))
+
+app.use(flash())
+
+app.get('/',function(req,res,next){
+    req.flash("error","Credentials");
+    res.direct('/error')
+})
+
+app.get('/error',function(req,res,next){
+    let message = req.flash("error")
+    res.send(message)
+})
+
+app.listen(3000);
