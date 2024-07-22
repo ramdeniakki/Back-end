@@ -1,3 +1,15 @@
+
+// const express = require('express')
+// const app = express();
+
+// app.get("/",function(req,res){
+//     res.send('Home page')
+// })
+
+// app.listen(3000)
+
+
+
 // const express = require('express')
 
 // const app = express();
@@ -26,14 +38,6 @@
 //     res.send("Page not Found")
 // })
 // app.listen(3000)
-
-
-
-
-
-
-
-
 
 
 ///// Sessions
@@ -66,49 +70,28 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /// connect the flash
+// const express = require('express')
+// const app = express();
 
+// const session = require('express-session');
+// const flash = require('connect-flash')
 
-const express = require('express')
-const app = express();
+// app.use(session({
+//     resave:false,
+//     saveUninitialized: false,
+//     secret: "Random Key"
+// }))
 
-const session = require('express-session');
-const flash = require('connect-flash')
+// app.use(flash())
 
-app.use(session({
-    resave:false,
-    saveUninitialized: false,
-    secret: "Random Key"
-}))
+// app.get('/',function(req,res,next){
+//     req.flash("error","Credentials");
+//     res.direct('/error')
+// })
 
-app.use(flash())
-
-app.get('/',function(req,res,next){
-    req.flash("error","Credentials");
-    res.direct('/error')
-})
-
-app.get('/error',function(req,res,next){
-    let message = req.flash("error")
-    res.send(message)
-})
-app.listen(3000);
+// app.get('/error',function(req,res,next){
+//     let message = req.flash("error")
+//     res.send(message)
+// })
+// app.listen(3000);
