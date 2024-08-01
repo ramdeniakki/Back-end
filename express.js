@@ -68,30 +68,92 @@
 
 // app.listen(3000);
 
+// / connect the flash
 
-
-/// connect the flash
-// const express = require('express')
+// const express  = require('express')
 // const app = express();
-
-// const session = require('express-session');
+// const session =  require('express-session')
 // const flash = require('connect-flash')
 
 // app.use(session({
-//     resave:false,
-//     saveUninitialized: false,
-//     secret: "Random Key"
+//     secret:"value",
+//     resave: false,
+//     saveUninitialized: false
 // }))
+
 
 // app.use(flash())
 
-// app.get('/',function(req,res,next){
-//     req.flash("error","Credentials");
-//     res.direct('/error')
+
+// app.get('/',(req,res,next)=>{
+//     req.flash('error',"invalid credentials")
+//     res.redirect('/error')
 // })
 
-// app.get('/error',function(req,res,next){
-//     let message = req.flash("error")
+
+// app.get('/error',(req,res,next)=>{
+//     let message = req.flash('error')
 //     res.send(message)
 // })
-// app.listen(3000);
+
+
+// app.listen(3000)
+
+
+
+// const express = require('express')
+// const app = express();
+
+// const cookie = require('cookie-parser')
+
+// app.use(cookie())
+
+// app.get('/',(req,res,next)=>{
+//     res.send('hey')
+// })
+
+
+
+// app.get('/check',(req,res,next)=>{
+//     console.log(req.cookies.banned)
+//     res.send("Checking")
+// })
+
+
+// app.get('/banned',(req,res,next)=>{
+//     res.cookie("banned","true")
+//     res.send("Banned")
+// })
+
+
+// app.listen(3000)
+
+
+
+
+
+
+// Dynamic Routing:
+
+
+
+// const express = require('express')
+// const app = express();
+
+// app.get('/',(req,res)=>{
+//     res.send('Welcome page')
+    
+// })
+
+
+// app.get('/profile/:username/:age',(req,res,next)=>{
+//     res.send(`Hello this is ${req.params.username} ${req.params.age} old software developer `)
+// })
+
+// app.listen(3000)
+
+
+
+
+
+

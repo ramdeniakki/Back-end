@@ -201,28 +201,38 @@ fs.mkdir("FsMod",function(err){
 
 
 
-const express = require('express')
-const app = express();
+// const express = require('express')
+// const app = express();
 
-const session = require('express-session');
-const flash = require('connect-flash')
+// const session = require('express-session');
+// const flash = require('connect-flash')
 
-app.use(session({
-    resave:false,
-    saveUninitialized: false,
-    secret: "Random Key"
-}))
+// app.use(session({
+//     resave:false,
+//     saveUninitialized: false,
+//     secret: "Random Key"
+// }))
 
-app.use(flash())
+// app.use(flash())
 
-app.get('/',function(req,res,next){
-    req.flash("error","Credentials");
-    res.direct('/error')
-})
+// app.get('/',function(req,res,next){
+//     req.flash("error","Credentials");
+//     res.direct('/error')
+// })
 
-app.get('/error',function(req,res,next){
-    let message = req.flash("error")
-    res.send(message)
-})
+// app.get('/error',function(req,res,next){
+//     let message = req.flash("error")
+//     res.send(message)
+// })
 
-app.listen(3000);
+// app.listen(3000);
+
+
+
+
+// const http = require('http')
+// const server = http.createServer((req,res)=>{
+//     res.end("Hello")
+// })
+
+// server.listen(3000);
