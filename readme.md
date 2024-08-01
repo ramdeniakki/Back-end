@@ -421,3 +421,427 @@ app.listen(3000);
   - It stores session data on the server and provides a unique session ID to the client using a cookie.
   - Flash messages utilize sessions to store temporary messages between requests.
 
+### Connect Flash Middleware
+
+The `connect-flash` module provides flash messages for Express applications. Flash messages are temporary messages that are stored in the session and only available on the next request.
+
+#### Code Explanation
+
+```javascript
+const express = require('express');
+const app = express();
+const session = require('express-session');
+const flash = require('connect-flash');
+
+app.use(session({
+    secret: "value",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(flash());
+
+app.get('/', (req, res, next) => {
+    req.flash('error', "invalid credentials");
+    res.redirect('/error');
+});
+
+app.get('/error', (req, res, next) => {
+    let message = req.flash('error');
+    res.send(message);
+});
+
+app.listen(3000);
+```
+
+#### Breakdown
+
+1. **Import Modules**
+
+```javascript
+const express = require('express');
+const app = express();
+const session = require('express-session');
+const flash = require('connect-flash');
+```
+
+- `express`: Importing the Express module.
+- `session`: Importing the express-session module to handle session management.
+- `flash`: Importing the connect-flash module to manage flash messages.
+
+2. **Configure Session Middleware**
+
+```javascript
+app.use(session({
+    secret: "value",
+    resave: false,
+    saveUninitialized: false
+}));
+```
+
+- `secret`: A secret string used to sign the session ID cookie.
+- `resave`: Forces the session to be saved back to the session store, even if it was never modified during the request.
+- `saveUninitialized`: Forces an uninitialized session to be saved to the store.
+
+3. **Configure Flash Middleware**
+
+```javascript
+app.use(flash());
+```
+
+- Adds flash message support to the app.
+
+4. **Define Routes**
+
+```javascript
+app.get('/', (req, res, next) => {
+    req.flash('error', "invalid credentials");
+    res.redirect('/error');
+});
+```
+
+- When a GET request is made to the root URL `/`, an error message is flashed and the user is redirected to `/error`.
+
+```javascript
+app.get('/error', (req, res, next) => {
+    let message = req.flash('error');
+    res.send(message);
+});
+```
+
+- When a GET request is made to `/error`, the flashed message is retrieved and sent as the response.
+
+5. **Start the Server**
+
+```javascript
+app.listen(3000);
+```
+
+- Starts the server on port 3000.
+
+### Cookie Parser Middleware
+
+The `cookie-parser` module parses cookies attached to the client request object.
+
+#### Code Explanation
+
+```javascript
+const express = require('express');
+const app = express();
+const cookie = require('cookie-parser');
+
+app.use(cookie());
+
+app.get('/', (req, res, next) => {
+    res.send('hey');
+});
+
+app.get('/check', (req, res, next) => {
+    console.log(req.cookies.banned);
+    res.send("Checking");
+});
+
+app.get('/banned', (req, res, next) => {
+    res.cookie("banned", "true");
+    res.send("Banned");
+});
+
+app.listen(3000);
+```
+
+#### Breakdown
+
+1. **Import Modules**
+
+```javascript
+const express = require('express');
+const app = express();
+const cookie = require('cookie-parser');
+```
+
+- `cookie-parser`: Importing the cookie-parser module to handle cookies.
+
+2. **Configure Middleware**
+
+```javascript
+app.use(cookie());
+```
+
+- Adds cookie parsing middleware to the app.
+
+3. **Define Routes**
+
+```javascript
+app.get('/', (req, res, next) => {
+    res.send('hey');
+});
+```
+
+- When a GET request is made to the root URL `/`, a simple 'hey' message is sent.
+
+```javascript
+app.get('/check', (req, res, next) => {
+    console.log(req.cookies.banned);
+    res.send("Checking");
+});
+```
+
+- When a GET request is made to `/check`, it logs the value of the `banned` cookie and sends "Checking" as the response.
+
+```javascript
+app.get('/banned', (req, res, next) => {
+    res.cookie("banned", "true");
+    res.send("Banned");
+});
+```
+
+- When a GET request is made to `/banned`, it sets a `banned` cookie with the value `true` and sends "Banned" as the response.
+
+4. **Start the Server**
+
+```javascript
+app.listen(3000);
+```
+
+- Starts the server on port 3000.
+
+### Dynamic Routing
+
+Dynamic routing allows you to capture values from the URL and use them in your route handlers.
+
+#### Code Explanation
+
+```javascript
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+    res.send('Welcome page');
+});
+
+app.get('/profile/:username/:age', (req, res, next) => {
+    res.send(`Hello this is ${req.params.username}, a ${req.params.age} year old software developer`);
+});
+
+app.listen(3000);
+```
+
+#### Breakdown
+
+1. **Import Modules**
+
+```javascript
+const express = require('express');
+const app = express();
+```
+
+- `express`: Importing the Express module.
+
+2. **Define Routes**
+
+```javascript
+app.get('/', (req, res) => {
+    res.send('Welcome page');
+});
+```
+
+- When a GET request is made to the root URL `/`, a "Welcome page" message is sent.
+
+```javascript
+app.get('/profile/:username/:age', (req, res, next) => {
+    res.send(`Hello this is ${req.params.username}, a ${req.params.age} year old software developer`);
+});
+```
+
+- When a GET request is made to `/profile/:username/:age`, the values of `username` and `age` are captured from the URL and used in the response message.
+
+3. **Start the Server**
+
+```javascript
+app.listen(3000);
+```
+
+- Starts the server on port 3000.
+
+
+
+
+### HTML Form Explanation
+
+This HTML document defines a simple form that users can fill out and submit. The form collects a user's name, email, and password.
+
+#### HTML Structure
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/create" method="post">
+        <input type="text" name="name" placeholder="name" required>
+        <input type="email" name="email" placeholder="email" required>
+        <input type="password" name="password" placeholder="password" required>
+        <input type="submit">
+    </form>
+</body>
+</html>
+```
+
+#### Breakdown
+
+1. **DOCTYPE Declaration**
+
+```html
+<!DOCTYPE html>
+```
+
+- This line declares the document type and version of HTML being used. `<!DOCTYPE html>` indicates that the document is an HTML5 document.
+
+2. **HTML Tag and Language Attribute**
+
+```html
+<html lang="en">
+```
+
+- The `<html>` tag encloses all HTML content. The `lang="en"` attribute specifies the language of the document as English.
+
+3. **Head Section**
+
+```html
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+```
+
+- The `<head>` section contains metadata and information about the document.
+
+    - `<meta charset="UTF-8">`: This meta tag specifies the character encoding for the document as UTF-8.
+    - `<meta name="viewport" content="width=device-width, initial-scale=1.0">`: This meta tag sets the viewport to make the website responsive on all devices. `width=device-width` sets the width of the page to follow the screen width of the device. `initial-scale=1.0` sets the initial zoom level when the page is first loaded.
+    - `<title>Document</title>`: This sets the title of the document, which appears in the browser tab.
+
+4. **Body Section**
+
+```html
+<body>
+```
+
+- The `<body>` section contains the content of the document that will be displayed to the user.
+
+5. **Form Element**
+
+```html
+<form action="/create" method="post">
+```
+
+- `<form>`: The form element is used to create an HTML form for user input.
+    - `action="/create"`: This specifies the URL to which the form data will be sent when the form is submitted. In this case, it points to the `/create` route of the Express server.
+    - `method="post"`: This specifies the HTTP method to be used when submitting the form. Here, it uses the POST method, which is typically used for sending form data securely.
+
+6. **Input Fields**
+
+```html
+<input type="text" name="name" placeholder="name" required>
+<input type="email" name="email" placeholder="email" required>
+<input type="password" name="password" placeholder="password" required>
+<input type="submit">
+```
+
+- `<input type="text" name="name" placeholder="name" required>`: This creates a text input field for the user's name.
+    - `type="text"`: Specifies that the input is a text field.
+    - `name="name"`: Specifies the name of the input field, which will be sent as the key in the form data.
+    - `placeholder="name"`: Provides a placeholder text that appears in the input field when it's empty.
+    - `required`: Makes the input field mandatory, meaning the form cannot be submitted without filling out this field.
+
+- `<input type="email" name="email" placeholder="email" required>`: This creates an email input field.
+    - `type="email"`: Specifies that the input is an email field, which ensures that the entered value is a valid email address.
+    - The `name`, `placeholder`, and `required` attributes function the same as in the text input field.
+
+- `<input type="password" name="password" placeholder="password" required>`: This creates a password input field.
+    - `type="password"`: Specifies that the input is a password field, which hides the entered characters.
+    - The `name`, `placeholder`, and `required` attributes function the same as in the text input field.
+
+- `<input type="submit">`: This creates a submit button for the form.
+    - `type="submit"`: Specifies that this input is a submit button, which sends the form data to the server when clicked.
+
+### Introduction to EJS
+
+EJS (Embedded JavaScript) is a simple templating language that lets you generate HTML markup with plain JavaScript. It is commonly used with Node.js and Express to create dynamic web pages.
+
+### Code Explanation
+
+#### 1. Setting up Express and EJS
+
+```javascript
+const express = require('express');
+const app = express();
+app.set('view engine', 'ejs');
+```
+
+- `const express = require('express');`: This line imports the Express module, which is a web application framework for Node.js.
+- `const app = express();`: This line creates an instance of an Express application.
+- `app.set('view engine', 'ejs');`: This line sets EJS as the template engine for the application, allowing you to use EJS files to generate HTML.
+
+#### 2. Middleware for Parsing JSON and URL-Encoded Data
+
+```javascript
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+```
+
+- `app.use(express.json());`: This middleware parses incoming requests with JSON payloads. It is useful for APIs that receive JSON data.
+- `app.use(express.urlencoded({ extended: true }));`: This middleware parses incoming requests with URL-encoded payloads. The `extended: true` option allows for rich objects and arrays to be encoded into the URL-encoded format.
+
+#### 3. Defining Routes
+
+##### Root Route (GET /)
+
+```javascript
+app.get('/', (req, res) => {
+    res.render('form');
+});
+```
+
+- `app.get('/', (req, res) => { ... });`: This defines a route for the root URL (`/`). When a GET request is made to the root URL, the callback function is executed.
+- `res.render('form');`: This renders the `form.ejs` template. The `form.ejs` file should be placed in the `views` directory of your project.
+
+##### Profile Route (GET /profile)
+
+```javascript
+app.get('/profile', (req, res) => {
+    res.send('profile');
+});
+```
+
+- `app.get('/profile', (req, res) => { ... });`: This defines a route for the `/profile` URL. When a GET request is made to `/profile`, the callback function is executed.
+- `res.send('profile');`: This sends a plain text response "profile" to the client.
+
+##### Create Route (POST /create)
+
+```javascript
+app.post('/create', (req, res) => {
+    console.log(req.body);
+    res.send('Form data received!');
+});
+```
+
+- `app.post('/create', (req, res) => { ... });`: This defines a route for the `/create` URL. When a POST request is made to `/create`, the callback function is executed.
+- `console.log(req.body);`: This logs the body of the request to the console. The body contains the form data submitted by the client.
+- `res.send('Form data received!');`: This sends a plain text response "Form data received!" to the client.
+
+#### 4. Starting the Server
+
+```javascript
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});
+```
+
+- `app.listen(3000, () => { ... });`: This starts the server on port 3000. The callback function is executed once the server starts successfully.
+- `console.log('Server is running on http://localhost:3000');`: This logs a message to the console indicating that the server is running and listening for requests on `http://localhost:3000`.
+be expanded to build more complex applications by adding more routes, views, and middleware.

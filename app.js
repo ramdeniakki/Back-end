@@ -27,10 +27,6 @@ app.post('/create', (req, res) => {
     console.log(req.body); 
     res.send('Form data received!');
 });
-
-app.get('/posting',(req,res)=>{
-    res.send("POST THE DATA")
-});
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
